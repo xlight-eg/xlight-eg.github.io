@@ -1,46 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X-Light Catalog</title>
 
 <style>
-:root{
-  --primary:#00B7C2;
-  --dark:#0f172a;
-  --light:#f8fafc;
-}
-
 body{
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:var(--light);
-  color:var(--dark);
+  font-family:Arial;
+  background:linear-gradient(to bottom,#f4f4f4,#ffffff); /* ✅ Gradient خفيف */
 }
 
+/* ✅ Header */
 header{
-  background:var(--primary);
-  padding:15px 20px;
+  background:#000;
+  padding:15px 25px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  color:white;
+  align-items:center;
+  position:relative;
 }
 
-header img{
-  height:40px;
+/* ✅ خط Cyan تحت الهيدر */
+header::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:3px;
+  background:#00b7c2;
 }
+
+header img{height:55px}
+header h2{color:white;margin:0}
 
 .filter-bar{
-  padding:15px;
   text-align:center;
-}
-
-select{
-  padding:8px 12px;
-  border-radius:6px;
-  border:1px solid #ccc;
+  padding:20px;
 }
 
 .products{
@@ -53,63 +50,147 @@ select{
 .card{
   background:white;
   border-radius:12px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.08);
   overflow:hidden;
-  transition:.3s;
+  box-shadow:0 5px 15px rgba(0,0,0,0.08);
+  cursor:pointer;
+  transition:0.3s;
 }
 
 .card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-6px);
+  box-shadow:0 15px 30px rgba(0,183,194,0.15);
 }
 
 .card img{
   width:100%;
-  height:200px;
-  object-fit:cover;
+  height:220px;
+  object-fit:contain;
+  background:#f4f4f4;
 }
 
 .card-content{
   padding:15px;
 }
 
+.price{
+  color:#00b7c2;
+  font-weight:bold;
+  font-size:18px;
+}
+
 .badge{
   display:inline-block;
   padding:4px 8px;
-  font-size:12px;
   border-radius:20px;
+  font-size:12px;
   margin-top:5px;
 }
 
-.in{
-  background:#dcfce7;
-  color:#166534;
-}
+.in{background:#dcfce7;color:#166534}
+.out{background:#fee2e2;color:#991b1b}
 
-.out{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-button{
-  background:var(--primary);
-  color:white;
-  border:none;
-  padding:8px 12px;
-  border-radius:6px;
-  cursor:pointer;
-  margin-top:10px;
-}
-
-.whatsapp-float{
+/* ✅ Floating Buttons */
+.whatsapp{
   position:fixed;
   bottom:20px;
   right:20px;
   background:#25D366;
   color:white;
-  padding:12px 15px;
+  padding:14px 20px;
   border-radius:50px;
   text-decoration:none;
   font-weight:bold;
+}
+
+.location{
+  position:fixed;
+  bottom:85px;
+  right:20px;
+  background:#00b7c2;
+  color:white;
+  padding:14px 20px;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* ✅ Modal */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content{
+  background:white;
+  width:90%;
+  max-width:700px;
+  padding:20px;
+  border-radius:12px;
+  max-height:90vh;
+  overflow:auto;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.variant-box{
+  background:#f9fafb;
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:15px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.05);
+}
+
+.variant-box strong{
+  font-size:18px;
+  display:block;
+  margin-bottom:5px;
+}
+
+.variant-price{
+  color:#00b7c2;
+  font-weight:bold;
+  font-size:16px;
+  margin-bottom:5px;
+}
+
+.variant-size{
+  color:#555;
+  font-size:14px;
+  margin-bottom:5px;
+}
+
+.stock-in{
+  color:#16a34a;
+  font-weight:bold;
+}
+
+.stock-out{
+  color:#dc2626;
+  font-weight:bold;
+}
+
+.variant-box button{
+  margin-top:10px;
+  background:#00b7c2;
+  border:none;
+  color:white;
+  padding:8px 14px;
+  border-radius:6px;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -117,72 +198,95 @@ button{
 <body>
 
 <header>
-  <img src="logo.png">
-  <h2>X-Light</h2>
+<img src="logo.png">
+<h2>X-Light</h2>
 </header>
 
 <div class="filter-bar">
-  <select id="categoryFilter">
-    <option value="all">All Categories</option>
-  </select>
+<input type="text" id="searchInput" placeholder="Search product..."
+style="padding:10px 15px;border-radius:6px;border:1px solid #ccc;width:220px;margin-right:10px;">
+<select id="categoryFilter">
+<option value="all">All Categories</option>
+</select>
 </div>
 
 <div class="products" id="productList"></div>
 
-<a class="whatsapp-float" 
-href="https://wa.me/201092278234" 
+<a class="location"
+href="https://www.google.com/maps/search/X%20light%20magnetic__track%20%D9%85%D8%A7%D8%AC%D9%86%D8%AA%D9%83%2C%20Cairo"
+target="_blank">
+📍 موقعنا
+</a>
+
+<a class="whatsapp"
+href="https://wa.me/201092278234"
 target="_blank">
 WhatsApp
 </a>
 
+<!-- ✅ Modal -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">×</span>
+    <img id="modalImage" style="width:100%;height:300px;object-fit:contain;background:#f4f4f4;border-radius:10px;">
+    <h2 id="modalTitle"></h2>
+    <p id="modalCategory"></p>
+    <p id="modalDescription"></p>
+    <h3>Available Variants</h3>
+    <div id="variantList"></div>
+  </div>
+</div>
+
 <script>
 
-const productsURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=0&single=true&output=csv";
-
-const variantsURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=365796544&single=true&output=csv";
-
-async function loadData(){
-  const prodRes = await fetch(productsURL);
-  const prodText = await prodRes.text();
-  const varRes = await fetch(variantsURL);
-  const varText = await varRes.text();
-
-  const products = parseCSV(prodText);
-  const variants = parseCSV(varText);
-
-  renderProducts(products, variants);
-  populateCategories(products);
-}
+const productsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=0&single=true&output=csv";
+const variantsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=365796544&single=true&output=csv";
 
 function parseCSV(text){
-  const rows = text.trim().split("\n");
-  const headers = rows.shift().split(",");
-  return rows.map(row=>{
-    const values = row.split(",");
-    let obj = {};
-    headers.forEach((h,i)=> obj[h.trim()] = values[i]?.trim());
+  const rows=text.trim().split("\n");
+  const headers=rows[0].split(",").map(h=>h.replace(/"/g,"").trim());
+  return rows.slice(1).map(row=>{
+    const cols=row.split(",");
+    let obj={};
+    headers.forEach((h,i)=>{
+      obj[h]= (cols[i]||"").replace(/"/g,"").trim();
+    });
     return obj;
   });
 }
 
-function renderProducts(products, variants){
-  const container = document.getElementById("productList");
+let globalProducts=[];
+let globalVariants=[];
+
+async function loadData(){
+  globalProducts=parseCSV(await fetch(productsURL).then(r=>r.text()));
+  globalVariants=parseCSV(await fetch(variantsURL).then(r=>r.text()));
+  renderProducts();
+  buildFilter();
+}
+
+function renderProducts(){
+  const container=document.getElementById("productList");
   container.innerHTML="";
 
-  products.forEach(prod=>{
-    const related = variants.filter(v=>v.ProductID===prod.ProductID);
-    const first = related[0];
+  globalProducts.forEach(p=>{
+    if(!p.ProductID) return;
 
-    const card = document.createElement("div");
+    const related=globalVariants.filter(v=>v.ProductID===p.ProductID);
+    const anyInStock=related.some(v=>v.Stock==="In Stock");
+
+    const card=document.createElement("div");
     card.className="card";
+    card.setAttribute("data-category",p.Category);
+    card.onclick=()=>openModal(p.ProductID);
 
     card.innerHTML=`
-      <img src="${prod.Image || 'https://via.placeholder.com/400'}">
+      <img src="${p.Image}" onerror="this.src='https://via.placeholder.com/400'">
       <div class="card-content">
-        <h3>${prod.Name}</h3>
-        <p>${prod.Category}</p>
-        ${first ? `<p><strong>${first.Price} EGP</strong></p>` : ""}
-        ${first ? `<span class="badge ${first.Stock==='In Stock'?'in':'out'}">${first.Stock}</span>`:""}
+        <h3>${p.Name}</h3>
+        <p>${p.Category || ""}</p>
+        ${related.length?`<p class="price">${related[0].Price} EGP</p>`:""}
+        ${related.length?`<span class="badge ${anyInStock?'in':'out'}">${anyInStock?'In Stock':'Out of Stock'}</span>`:""}
       </div>
     `;
 
@@ -190,9 +294,42 @@ function renderProducts(products, variants){
   });
 }
 
-function populateCategories(products){
-  const select = document.getElementById("categoryFilter");
-  const categories = [...new Set(products.map(p=>p.Category))];
+function openModal(productID){
+  const product=globalProducts.find(p=>p.ProductID===productID);
+  const related=globalVariants.filter(v=>v.ProductID===productID);
+
+  document.getElementById("modalImage").src=product.Image;
+  document.getElementById("modalTitle").innerText=product.Name;
+  document.getElementById("modalCategory").innerText=product.Category;
+  document.getElementById("modalDescription").innerText=product.Description || "";
+
+  const container=document.getElementById("variantList");
+  container.innerHTML="";
+
+  related.forEach(v=>{
+    container.innerHTML+=`
+      <div class="variant-box">
+        <strong>${v.Watt}</strong>
+        <div class="variant-price">${v.Price} EGP</div>
+        <div class="variant-size">Size: ${v.Dimension}</div>
+        <div class="${v.Stock==='In Stock'?'stock-in':'stock-out'}">
+          ${v.Stock}
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById("productModal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("productModal").style.display="none";
+}
+
+function buildFilter(){
+  const select=document.getElementById("categoryFilter");
+  const categories=[...new Set(globalProducts.map(p=>p.Category).filter(Boolean))];
+
   categories.forEach(cat=>{
     const option=document.createElement("option");
     option.value=cat;
@@ -200,22 +337,29 @@ function populateCategories(products){
     select.appendChild(option);
   });
 
-  select.addEventListener("change", e=>{
-    filterProducts(e.target.value);
+  select.addEventListener("change",e=>{
+    const value=e.target.value;
+    const cards=document.querySelectorAll(".card");
+    cards.forEach(card=>{
+      if(value==="all") card.style.display="block";
+      else card.style.display=card.getAttribute("data-category")===value?"block":"none";
+    });
   });
 }
 
-function filterProducts(category){
-  const cards=document.querySelectorAll(".card");
-  cards.forEach(card=>{
-    if(category==="all") card.style.display="block";
-    else{
-      card.style.display=card.innerHTML.includes(category)?"block":"none";
-    }
-  });
-}
+document.addEventListener("input",function(e){
+  if(e.target.id==="searchInput"){
+    const searchValue=e.target.value.toLowerCase();
+    const cards=document.querySelectorAll(".card");
+    cards.forEach(card=>{
+      const text=card.innerText.toLowerCase();
+      card.style.display=text.includes(searchValue)?"block":"none";
+    });
+  }
+});
 
 loadData();
+
 </script>
 
 </body>
