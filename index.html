@@ -1,359 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>X-Light Catalog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Location</title>
 
 <style>
-body{
- margin:0;
- font-family:Arial;
- background:linear-gradient(to bottom,#f4f4f4,#ffffff);
- transition:0.3s;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: #fff;
+    text-align: center;
 }
 
-/* Header */
-header{
- background:#000;
- padding:15px 25px;
- display:flex;
- justify-content:space-between;
- align-items:center;
- position:relative;
+.location-section {
+    padding: 60px 20px;
 }
 
-header::after{
- content:"";
- position:absolute;
- bottom:0;
- left:0;
- width:100%;
- height:3px;
- background:#00b7c2;
+.location-section h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
 }
 
-header img{height:55px}
-header h2{color:white;margin:0}
-
-.filter-bar{
- text-align:center;
- padding:20px;
+.location-section p {
+    color: #ccc;
+    margin-bottom: 30px;
 }
 
-.products{
- display:grid;
- grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
- gap:20px;
- padding:20px;
+.map-container {
+    max-width: 1000px;
+    margin: auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-.card{
- background:white;
- border-radius:12px;
- overflow:hidden;
- box-shadow:0 5px 15px rgba(0,0,0,0.08);
- cursor:pointer;
- transition:0.3s;
+iframe {
+    width: 100%;
+    height: 400px;
+    border: 0;
 }
 
-.card:hover{
- transform:translateY(-6px);
- box-shadow:0 15px 30px rgba(0,183,194,0.15);
+.map-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 14px 28px;
+    background: linear-gradient(45deg, #000, #333);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    font-size: 15px;
+    letter-spacing: 0.5px;
 }
 
-.card img{
- width:100%;
- height:220px;
- object-fit:contain;
- background:#f4f4f4;
+.map-button:hover {
+    background: linear-gradient(45deg, #444, #000);
+    transform: translateY(-2px);
 }
-
-.card-content{
- padding:15px;
-}
-
-.price{
- color:#00b7c2;
- font-weight:bold;
- font-size:18px;
-}
-
-.badge{
- display:inline-block;
- padding:4px 8px;
- border-radius:20px;
- font-size:12px;
- margin-top:5px;
-}
-
-.in{background:#dcfce7;color:#166534}
-.out{background:#fee2e2;color:#991b1b}
-
-/* Floating Buttons */
-.whatsapp{
- position:fixed;
- bottom:20px;
- right:20px;
- background:#25D366;
- color:white;
- padding:14px 20px;
- border-radius:50px;
- text-decoration:none;
- font-weight:bold;
-}
-
-.location{
- position:fixed;
- bottom:85px;
- right:20px;
- background:#00b7c2;
- color:white;
- padding:14px 20px;
- border-radius:50px;
- text-decoration:none;
- font-weight:bold;
-}
-
-/* ===== Improved Modal ===== */
-
-.modal{
- display:none;
- position:fixed;
- top:0;
- left:0;
- width:100%;
- height:100%;
- background:rgba(0,0,0,0.6);
- backdrop-filter:blur(4px);
- justify-content:center;
- align-items:center;
- opacity:0;
- transition:opacity 0.3s ease;
-}
-
-.modal.show{
- display:flex;
- opacity:1;
-}
-
-.modal-content{
- background:white;
- width:90%;
- max-width:700px;
- padding:25px;
- border-radius:14px;
- max-height:90vh;
- overflow:auto;
- position:relative;
- transform:translateY(20px);
- transition:transform 0.3s ease;
-}
-
-.modal.show .modal-content{
- transform:translateY(0);
-}
-
-.close{
- position:absolute;
- top:15px;
- right:20px;
- font-size:32px;
- font-weight:bold;
- cursor:pointer;
- color:#444;
- transition:0.2s;
-}
-
-.close:hover{
- color:#000;
- transform:scale(1.2);
-}
-
-.variant-box{
- background:#f9fafb;
- border-radius:10px;
- padding:15px;
- margin-bottom:15px;
- box-shadow:0 3px 8px rgba(0,0,0,0.05);
-}
-
-.variant-price{
- color:#00b7c2;
- font-weight:bold;
-}
-
-.stock-in{color:#16a34a;font-weight:bold;}
-.stock-out{color:#dc2626;font-weight:bold;}
-
 </style>
 </head>
 
 <body>
 
-<header>
-<img src="logo.png">
-<h2>X-Light</h2>
-</header>
+<section class="location-section">
+    <h2>📍 Our Location</h2>
+    <p>X_light Magnetic Track<br>
+    اللوتس الجنوبيه، محافظة القاهرة 71631</p>
 
-<div class="filter-bar">
-<input type="text" id="searchInput" placeholder="Search product..."
-style="padding:10px 15px;border-radius:6px;border:1px solid #ccc;width:220px;margin-right:10px;">
-<select id="categoryFilter">
-<option value="all">All Categories</option>
-</select>
-</div>
+    <div class="map-container">
+        <iframe
+            src="https://www.google.com/maps?q=X_light+magnetic_track,+اللوتس+الجنوبيه,+محافظة+القاهرة+71631&output=embed"
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </div>
 
-<div class="products" id="productList"></div>
-
-<a class="location" href="https://www.google.com/maps" target="_blank">موقعنا</a>
-<a class="whatsapp" href="https://wa.me/201092278234" target="_blank">WhatsApp</a>
-
-<!-- Modal -->
-<div id="productModal" class="modal">
- <div class="modal-content">
-  <span class="close" onclick="closeModal()">×</span>
-  <img id="modalImage" style="width:100%;height:300px;object-fit:contain;background:#f4f4f4;border-radius:10px;">
-  <h2 id="modalTitle"></h2>
-  <p id="modalCategory"></p>
-  <p id="modalDescription"></p>
-  <h3>Available Variants</h3>
-  <div id="variantList"></div>
- </div>
-</div>
-
-<script>
-
-const productsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=0&single=true&output=csv";
-const variantsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=365796544&single=true&output=csv";
-
-function parseCSV(text){
- const rows=text.trim().split("\n");
- const headers=rows[0].split(",").map(h=>h.replace(/"/g,"").trim());
- return rows.slice(1).map(row=>{
-  const cols=row.split(",");
-  let obj={};
-  headers.forEach((h,i)=>{
-   obj[h]=(cols[i]||"").replace(/"/g,"").trim();
-  });
-  return obj;
- });
-}
-
-let globalProducts=[];
-let globalVariants=[];
-
-async function loadData(){
- globalProducts=parseCSV(await fetch(productsURL).then(r=>r.text()));
- globalVariants=parseCSV(await fetch(variantsURL).then(r=>r.text()));
- renderProducts();
- buildFilter();
-}
-
-function renderProducts(){
- const container=document.getElementById("productList");
- container.innerHTML="";
- globalProducts.forEach(p=>{
-  if(!p.ProductID) return;
-  const related=globalVariants.filter(v=>v.ProductID===p.ProductID);
-  const anyInStock=related.some(v=>v.Stock==="In Stock");
-
-  const card=document.createElement("div");
-  card.className="card";
-  card.setAttribute("data-category",p.Category);
-  card.onclick=()=>openModal(p.ProductID);
-
-  card.innerHTML=`
-   <img src="${p.Image}" onerror="this.src='https://via.placeholder.com/400'">
-   <div class="card-content">
-    <h3>${p.Name}</h3>
-    <p>${p.Category || ""}</p>
-    ${related.length?`<p class="price">${related[0].Price} EGP</p>`:""}
-    ${related.length?`<span class="badge ${anyInStock?'in':'out'}">${anyInStock?'In Stock':'Out of Stock'}</span>`:""}
-   </div>
-  `;
-
-  container.appendChild(card);
- });
-}
-
-function openModal(productID){
- const product=globalProducts.find(p=>p.ProductID===productID);
- const related=globalVariants.filter(v=>v.ProductID===productID);
-
- document.getElementById("modalImage").src=product.Image;
- document.getElementById("modalTitle").innerText=product.Name;
- document.getElementById("modalCategory").innerText=product.Category;
- document.getElementById("modalDescription").innerText=product.Description || "";
-
- const container=document.getElementById("variantList");
- container.innerHTML="";
-
- related.forEach(v=>{
-  container.innerHTML+=`
-   <div class="variant-box">
-    <strong>${v.Watt}</strong>
-    <div class="variant-price">${v.Price} EGP</div>
-    <div>Size: ${v.Dimension}</div>
-    <div class="${v.Stock==='In Stock'?'stock-in':'stock-out'}">${v.Stock}</div>
-   </div>
-  `;
- });
-
- document.getElementById("productModal").classList.add("show");
- document.body.style.overflow="hidden";
-}
-
-function closeModal(){
- document.getElementById("productModal").classList.remove("show");
- document.body.style.overflow="auto";
-}
-
-document.getElementById("productModal").addEventListener("click",function(e){
- if(e.target.id==="productModal"){
-  closeModal();
- }
-});
-
-document.addEventListener("keydown",function(e){
- if(e.key==="Escape"){
-  closeModal();
- }
-});
-
-function buildFilter(){
- const select=document.getElementById("categoryFilter");
- const categories=[...new Set(globalProducts.map(p=>p.Category).filter(Boolean))];
- categories.forEach(cat=>{
-  const option=document.createElement("option");
-  option.value=cat;
-  option.textContent=cat;
-  select.appendChild(option);
- });
-
- select.addEventListener("change",e=>{
-  const value=e.target.value;
-  const cards=document.querySelectorAll(".card");
-  cards.forEach(card=>{
-   if(value==="all") card.style.display="block";
-   else card.style.display=card.getAttribute("data-category")===value?"block":"none";
-  });
- });
-}
-
-document.addEventListener("input",function(e){
- if(e.target.id==="searchInput"){
-  const searchValue=e.target.value.toLowerCase();
-  const cards=document.querySelectorAll(".card");
-  cards.forEach(card=>{
-   const text=card.innerText.toLowerCase();
-   card.style.display=text.includes(searchValue)?"block":"none";
-  });
- }
-});
-
-loadData();
-
-</script>
+    <a class="map-button"
+       href="https://www.google.com/maps/search/?api=1&query=X_light+magnetic_track,+اللوتس+الجنوبيه,+محافظة+القاهرة+71631"
+       target="_blank">
+       Open in Google Maps
+    </a>
+</section>
 
 </body>
 </html>
