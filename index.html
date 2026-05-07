@@ -153,7 +153,6 @@ header h2{color:white;margin:0}
  transform:translateY(0);
 }
 
-/* Bigger Close Button */
 .close{
  position:absolute;
  top:15px;
@@ -206,24 +205,100 @@ style="padding:10px 15px;border-radius:6px;border:1px solid #ccc;width:220px;mar
 
 <div class="products" id="productList"></div>
 
+<a class="location" href="https://www.google.com/maps" target="_blank">موقعنا</a>
+<a class="whatsapp" href="https://wa.me/201092278234" target="_blank">WhatsApp</a>
+
 <!-- Modal -->
 <div id="productModal" class="modal">
  <div class="modal-content">
- <span class="close" onclick="closeModal()">×</span>
- <img id="modalImage" style="width:100%;height:300px;object-fit:contain;background:#f4f4f4;border-radius:10px;">
- <h2 id="modalTitle"></h2>
- <p id="modalCategory"></p>
- <p id="modalDescription"></p>
- <h3>Available Variants</h3>
- <div id="variantList"></div>
+  <span class="close" onclick="closeModal()">×</span>
+  <img id="modalImage" style="width:100%;height:300px;object-fit:contain;background:#f4f4f4;border-radius:10px;">
+  <h2 id="modalTitle"></h2>
+  <p id="modalCategory"></p>
+  <p id="modalDescription"></p>
+  <h3>Available Variants</h3>
+  <div id="variantList"></div>
  </div>
 </div>
 
 <script>
 
-/* Existing JS unchanged except modal improvements */
+const productsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=0&single=true&output=csv";
+const variantsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=365796544&single=true&output=csv";
+
+function parseCSV(text){
+ const rows=text.trim().split("\n");
+ const headers=rows[0].split(",").map(h=>h.replace(/"/g,"").trim());
+ return rows.slice(1).map(row=>{
+  const cols=row.split(",");
+  let obj={};
+  headers.forEach((h,i)=>{
+   obj[h]=(cols[i]||"").replace(/"/g,"").trim();
+  });
+  return obj;
+ });
+}
+
+let globalProducts=[];
+let globalVariants=[];
+
+async function loadData(){
+ globalProducts=parseCSV(await fetch(productsURL).then(r=>r.text()));
+ globalVariants=parseCSV(await fetch(variantsURL).then(r=>r.text()));
+ renderProducts();
+ buildFilter();
+}
+
+function renderProducts(){
+ const container=document.getElementById("productList");
+ container.innerHTML="";
+ globalProducts.forEach(p=>{
+  if(!p.ProductID) return;
+  const related=globalVariants.filter(v=>v.ProductID===p.ProductID);
+  const anyInStock=related.some(v=>v.Stock==="In Stock");
+
+  const card=document.createElement("div");
+  card.className="card";
+  card.setAttribute("data-category",p.Category);
+  card.onclick=()=>openModal(p.ProductID);
+
+  card.innerHTML=`
+   <img src="${p.Image}" onerror="this.src='https://via.placeholder.com/400'">
+   <div class="card-content">
+    <h3>${p.Name}</h3>
+    <p>${p.Category || ""}</p>
+    ${related.length?`<p class="price">${related[0].Price} EGP</p>`:""}
+    ${related.length?`<span class="badge ${anyInStock?'in':'out'}">${anyInStock?'In Stock':'Out of Stock'}</span>`:""}
+   </div>
+  `;
+
+  container.appendChild(card);
+ });
+}
 
 function openModal(productID){
+ const product=globalProducts.find(p=>p.ProductID===productID);
+ const related=globalVariants.filter(v=>v.ProductID===productID);
+
+ document.getElementById("modalImage").src=product.Image;
+ document.getElementById("modalTitle").innerText=product.Name;
+ document.getElementById("modalCategory").innerText=product.Category;
+ document.getElementById("modalDescription").innerText=product.Description || "";
+
+ const container=document.getElementById("variantList");
+ container.innerHTML="";
+
+ related.forEach(v=>{
+  container.innerHTML+=`
+   <div class="variant-box">
+    <strong>${v.Watt}</strong>
+    <div class="variant-price">${v.Price} EGP</div>
+    <div>Size: ${v.Dimension}</div>
+    <div class="${v.Stock==='In Stock'?'stock-in':'stock-out'}">${v.Stock}</div>
+   </div>
+  `;
+ });
+
  document.getElementById("productModal").classList.add("show");
  document.body.style.overflow="hidden";
 }
@@ -233,19 +308,50 @@ function closeModal(){
  document.body.style.overflow="auto";
 }
 
-/* Close on outside click */
 document.getElementById("productModal").addEventListener("click",function(e){
  if(e.target.id==="productModal"){
   closeModal();
  }
 });
 
-/* Close with ESC */
 document.addEventListener("keydown",function(e){
  if(e.key==="Escape"){
   closeModal();
  }
 });
+
+function buildFilter(){
+ const select=document.getElementById("categoryFilter");
+ const categories=[...new Set(globalProducts.map(p=>p.Category).filter(Boolean))];
+ categories.forEach(cat=>{
+  const option=document.createElement("option");
+  option.value=cat;
+  option.textContent=cat;
+  select.appendChild(option);
+ });
+
+ select.addEventListener("change",e=>{
+  const value=e.target.value;
+  const cards=document.querySelectorAll(".card");
+  cards.forEach(card=>{
+   if(value==="all") card.style.display="block";
+   else card.style.display=card.getAttribute("data-category")===value?"block":"none";
+  });
+ });
+}
+
+document.addEventListener("input",function(e){
+ if(e.target.id==="searchInput"){
+  const searchValue=e.target.value.toLowerCase();
+  const cards=document.querySelectorAll(".card");
+  cards.forEach(card=>{
+   const text=card.innerText.toLowerCase();
+   card.style.display=text.includes(searchValue)?"block":"none";
+  });
+ }
+});
+
+loadData();
 
 </script>
 
