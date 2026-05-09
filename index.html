@@ -87,7 +87,7 @@ header h2{color:white;margin:0}
 .in{background:#dcfce7;color:#166534}
 .out{background:#fee2e2;color:#991b1b}
 
-/* No results message */
+/* No results */
 .no-results{
  text-align:center;
  font-size:18px;
@@ -282,6 +282,7 @@ function renderProducts(){
  container.innerHTML="";
  globalProducts.forEach(p=>{
   if(!p.ProductID) return;
+
   const related=globalVariants.filter(v=>v.ProductID===p.ProductID);
   const anyInStock=related.some(v=>v.Stock==="In Stock");
 
@@ -299,10 +300,67 @@ function renderProducts(){
     ${related.length?`<span class="badge ${anyInStock?'in':'out'}">${anyInStock?'In Stock':'Out of Stock'}</span>`:""}
    </div>
   `;
+
   container.appendChild(card);
  });
 }
 
+/* ✅ رجعنا المودال بالكامل */
+function openModal(productID){
+ const product=globalProducts.find(p=>p.ProductID===productID);
+ const related=globalVariants.filter(v=>v.ProductID===productID);
+
+ document.getElementById("modalImage").src=product.Image;
+ document.getElementById("modalTitle").innerText=product.Name;
+
+ let categoryText = product.Category || "";
+ if(product.Color){
+  categoryText += `<br><b>Color:</b> ${product.Color}`;
+ }
+ document.getElementById("modalCategory").innerHTML = categoryText;
+
+ document.getElementById("modalDescription").innerText=product.Description || "";
+
+ const container=document.getElementById("variantList");
+ container.innerHTML="";
+
+ related.forEach(v=>{
+  container.innerHTML+=`
+   <div class="variant-box">
+     <div class="variant-top">
+       <div>${v.Watt}</div>
+       <div class="variant-price">${v.Price} EGP</div>
+     </div>
+     <div class="variant-bottom">
+       <div>Size: ${v.Dimension}</div>
+       <div class="stock-badge ${v.Stock==='In Stock'?'stock-in':'stock-out'}">
+         ${v.Stock}
+       </div>
+     </div>
+   </div>
+  `;
+ });
+
+ document.getElementById("productModal").classList.add("show");
+}
+
+function closeModal(){
+ document.getElementById("productModal").classList.remove("show");
+}
+
+document.getElementById("productModal").addEventListener("click", function(e){
+ if(e.target.id==="productModal"){
+  closeModal();
+ }
+});
+
+document.addEventListener("keydown", function(e){
+ if(e.key==="Escape"){
+  closeModal();
+ }
+});
+
+/* ✅ التصنيف بعدد المنتجات */
 function buildFilter(){
  const select=document.getElementById("categoryFilter");
  select.innerHTML='<option value="all">All Categories</option>';
@@ -354,23 +412,6 @@ function filterProducts(){
   if(existing) existing.remove();
  }
 }
-
-/* Modal close */
-function closeModal(){
- document.getElementById("productModal").classList.remove("show");
-}
-
-document.getElementById("productModal").addEventListener("click",function(e){
- if(e.target.id==="productModal"){
-  closeModal();
- }
-});
-
-document.addEventListener("keydown",function(e){
- if(e.key==="Escape"){
-  closeModal();
- }
-});
 
 loadData();
 
