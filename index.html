@@ -159,23 +159,7 @@ aspect-ratio: 4 / 3;
 object-fit: cover;
 display:block;
 }
-.card-image-wrapper{
- position:relative;
-}
 
-.card-badge{
- position:absolute;
- top:12px;
- right:12px;
- background:#00b7c2;
- color:#fff;
- padding:6px 14px;
- font-size:12px;
- font-weight:600;
- border-radius:30px;
- box-shadow:0 4px 10px rgba(0,183,194,0.25);
- letter-spacing:0.5px;
-}
 .card-content{
  padding:15px;
 }
@@ -517,18 +501,13 @@ function renderProducts(products){
   card.onclick=()=>openModal(p.ProductID);
 
   card.innerHTML=`
-<div class="card-image-wrapper">
-${p.Badge ? `<div class="card-badge">${p.Badge}`</div>` : ""}
-  <img src="${p.Image}" loading="lazy">
-</div>
-<div class="card-content">
-
-<h3>${p.Name}</h3>
-<p>${p.Category||""}</p>
-${related.length?`<p class="price">${related[0].Price} EGP</p>`:""}
-${related.length?`<span class="badge ${anyInStock?'in':'out'}">${anyInStock?'In Stock':'Out of Stock'}</span>`:""}
-</div>
-`;
+   <img src="${p.Image}" loading="lazy">
+   <div class="card-content">
+    <h3>${p.Name}</h3>
+    <p>${p.Category||""}</p>
+    ${related.length?`<p class="price">${related[0].Price} EGP</p>`:""}
+    ${related.length?`<span class="badge ${anyInStock?'in':'out'}">${anyInStock?'In Stock':'Out of Stock'}</span>`:""}
+   </div>
   `;
   container.appendChild(card);
  });
