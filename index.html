@@ -155,9 +155,10 @@ header h2{color:white;margin:0}
 
 .card img{
  width:100%;
-aspect-ratio: 4 / 3;
-object-fit: cover;
-display:block;}
+ height:220px;
+ object-fit:contain;
+ background:#f4f4f4;
+}
 
 .card-content{
  padding:15px;
@@ -180,13 +181,6 @@ display:block;}
 .in{background:#dcfce7;color:#166534}
 .out{background:#fee2e2;color:#991b1b}
 
- #modalImage{
- width:100%;
- aspect-ratio: 4 / 3;
- object-fit: cover;
- border-radius:10px;
- display:block;
-}
 .no-results{
  text-align:center;
  font-size:18px;
@@ -352,9 +346,10 @@ WhatsApp
 <div id="productModal" class="modal">
  <div class="modal-content">
  <span class="close" onclick="closeModal()">×</span>
-<img id="modalImage" style="background:#f4f4f4;border-radius:10px;">
-<h2 id="modalTitle"></h2>
+ <img id="modalImage" style="width:100%;height:300px;object-fit:contain;background:#f4f4f4;border-radius:10px;">
+ <h2 id="modalTitle"></h2>
  <p id="modalCategory"></p>
+ <p id="modalDescription"></p>
  <h3>Available Variants</h3>
  <div id="variantList"></div>
  </div>
