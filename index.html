@@ -34,60 +34,11 @@ header::after{
 header img{height:55px}
 header h2{color:white;margin:0}
 
-/* ✅ New Styled Search Bar (بدون لمس المنطق) */
 .filter-bar{
- display:flex;
- justify-content:center;
- padding:30px 20px;
+ text-align:center;
+ padding:20px;
 }
 
-.search-wrapper{
- display:flex;
- width:100%;
- max-width:850px;
- background:#fff;
- border-radius:12px;
- overflow:hidden;
- box-shadow:0 6px 18px rgba(0,0,0,0.08);
- border:1px solid #e6e6e6;
-}
-
-.search-wrapper input{
- flex:1;
- border:none;
- padding:14px 18px;
- font-size:14px;
- outline:none;
-}
-
-.search-wrapper select{
- border:none;
- padding:0 15px;
- font-size:14px;
- outline:none;
- border-left:1px solid #eee;
- cursor:pointer;
- background:white;
-}
-
-.search-btn{
- width:65px;
- background:white;
- border:none;
- border-left:1px solid #eee;
- cursor:pointer;
- display:flex;
- align-items:center;
- justify-content:center;
-}
-
-.search-btn svg{
- width:22px;
- height:22px;
- stroke:#00b7c2;
-}
-
-/* Products */
 .products{
  display:grid;
  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
@@ -184,7 +135,9 @@ header h2{color:white;margin:0}
  align-items:center;
 }
 
-.modal.show{ display:flex; }
+.modal.show{
+ display:flex;
+}
 
 .modal-content{
  background:white;
@@ -262,28 +215,23 @@ header h2{color:white;margin:0}
 <h2>X-Light</h2>
 </header>
 
-<!-- ✅ السيرش بالشكل الجديد لكن نفس العناصر -->
 <div class="filter-bar">
-  <div class="search-wrapper">
-    <input type="text" id="searchInput" placeholder="Search product...">
-    <select id="categoryFilter"></select>
-    <select id="sortSelect">
-      <option value="default">Sort</option>
-      <option value="priceLow">Price: Low → High</option>
-      <option value="priceHigh">Price: High → Low</option>
-      <option value="nameAZ">Name: A → Z</option>
-    </select>
-    <button class="search-btn" type="button">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
-        <circle cx="11" cy="11" r="7"></circle>
-        <line x1="20" y1="20" x2="16.5" y2="16.5"></line>
-      </svg>
-    </button>
-  </div>
+<input type="text" id="searchInput" placeholder="Search product..."
+style="padding:10px 15px;border-radius:6px;border:1px solid #ccc;width:200px;margin-right:10px;">
+
+<select id="categoryFilter"></select>
+
+<select id="sortSelect" style="padding:10px 15px;border-radius:6px;border:1px solid #ccc;margin-left:10px;">
+<option value="default">Sort</option>
+<option value="priceLow">Price: Low → High</option>
+<option value="priceHigh">Price: High → Low</option>
+<option value="nameAZ">Name: A → Z</option>
+</select>
 </div>
 
 <div class="products" id="productList"></div>
 
+<!-- ✅ رجعنا الأزرار -->
 <a class="location"
 href="https://maps.app.goo.gl/22CfjLSGUL4RXMqJ8"
 target="_blank">
@@ -296,10 +244,179 @@ target="_blank">
 WhatsApp
 </a>
 
-<!-- ✅ نفس السكريبت القديم بالكامل بدون أي تعديل -->
-<script>
-/* حط هنا السكريبت الكامل اللي انت باعته زي ما هو بدون أي تغيير */
-</script>
+<!-- Modal -->
+<div id="productModal" class="modal">
+ <div class="modal-content">
+ <span class="close" onclick="closeModal()">×</span>
+ <img id="modalImage" style="width:100%;height:300px;object-fit:contain;background:#f4f4f4;border-radius:10px;">
+ <h2 id="modalTitle"></h2>
+ <p id="modalCategory"></p>
+ <p id="modalDescription"></p>
+ <h3>Available Variants</h3>
+ <div id="variantList"></div>
+ </div>
+</div>
 
+<script>
+
+const productsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=0&single=true&output=csv";
+const variantsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=365796544&single=true&output=csv";
+
+let globalProducts=[];
+let globalVariants=[];
+
+function parseCSV(text){
+ const rows=text.trim().split("\n");
+ const headers=rows[0].split(",").map(h=>h.replace(/"/g,"").trim());
+ return rows.slice(1).map(row=>{
+  const cols=row.split(",");
+  let obj={};
+  headers.forEach((h,i)=>{
+   obj[h]=(cols[i]||"").replace(/"/g,"").trim();
+  });
+  return obj;
+ });
+}
+
+async function loadData(){
+ globalProducts=parseCSV(await fetch(productsURL).then(r=>r.text()));
+ globalVariants=parseCSV(await fetch(variantsURL).then(r=>r.text()));
+ buildFilter();
+ filterAndSortProducts();
+}
+
+/* ✅ مودال */
+function openModal(productID){
+ const product=globalProducts.find(p=>p.ProductID===productID);
+ const related=globalVariants.filter(v=>v.ProductID===productID);
+
+ document.getElementById("modalImage").src=product.Image;
+ document.getElementById("modalTitle").innerText=product.Name;
+
+ let categoryText = product.Category || "";
+ if(product.Color){
+  categoryText += `<br><b>Color:</b> ${product.Color}`;
+ }
+ document.getElementById("modalCategory").innerHTML = categoryText;
+ document.getElementById("modalDescription").innerText=product.Description || "";
+
+ const container=document.getElementById("variantList");
+ container.innerHTML="";
+
+ related.forEach(v=>{
+  container.innerHTML+=`
+   <div class="variant-box">
+     <div class="variant-top">
+       <div>${v.Watt}</div>
+       <div class="variant-price">${v.Price} EGP</div>
+     </div>
+     <div class="variant-bottom">
+       <div>Size: ${v.Dimension}</div>
+       <div class="stock-badge ${v.Stock==='In Stock'?'stock-in':'stock-out'}">
+         ${v.Stock}
+       </div>
+     </div>
+   </div>
+  `;
+ });
+
+ document.getElementById("productModal").classList.add("show");
+}
+
+function closeModal(){
+ document.getElementById("productModal").classList.remove("show");
+}
+
+document.getElementById("productModal").addEventListener("click", function(e){
+ if(e.target.id==="productModal") closeModal();
+});
+
+document.addEventListener("keydown", function(e){
+ if(e.key==="Escape") closeModal();
+});
+
+/* ✅ Filter + Sort */
+function buildFilter(){
+ const select=document.getElementById("categoryFilter");
+ select.innerHTML='<option value="all">All Categories</option>';
+ const categories=[...new Set(globalProducts.map(p=>p.Category).filter(Boolean))];
+ categories.forEach(cat=>{
+  const option=document.createElement("option");
+  option.value=cat;
+  option.textContent=cat;
+  select.appendChild(option);
+ });
+
+ select.addEventListener("change",filterAndSortProducts);
+ document.getElementById("searchInput").addEventListener("input",filterAndSortProducts);
+ document.getElementById("sortSelect").addEventListener("change",filterAndSortProducts);
+}
+
+function filterAndSortProducts(){
+ const searchValue=document.getElementById("searchInput").value.toLowerCase();
+ const selectedCategory=document.getElementById("categoryFilter").value;
+ const sortValue=document.getElementById("sortSelect").value;
+
+ let filtered=globalProducts.filter(p=>{
+  const text=(p.Name+" "+(p.Category||"")).toLowerCase();
+  return (selectedCategory==="all" || p.Category===selectedCategory) && text.includes(searchValue);
+ });
+
+ if(sortValue==="priceLow"){
+  filtered.sort((a,b)=>{
+   const pa=parseFloat(globalVariants.find(v=>v.ProductID===a.ProductID)?.Price||0);
+   const pb=parseFloat(globalVariants.find(v=>v.ProductID===b.ProductID)?.Price||0);
+   return pa-pb;
+  });
+ }
+
+ if(sortValue==="priceHigh"){
+  filtered.sort((a,b)=>{
+   const pa=parseFloat(globalVariants.find(v=>v.ProductID===a.ProductID)?.Price||0);
+   const pb=parseFloat(globalVariants.find(v=>v.ProductID===b.ProductID)?.Price||0);
+   return pb-pa;
+  });
+ }
+
+ if(sortValue==="nameAZ"){
+  filtered.sort((a,b)=>a.Name.localeCompare(b.Name));
+ }
+
+ renderProducts(filtered);
+}
+
+function renderProducts(products){
+ const container=document.getElementById("productList");
+ container.innerHTML="";
+
+ if(products.length===0){
+  container.innerHTML='<div class="no-results">No products found</div>';
+  return;
+ }
+
+ products.forEach(p=>{
+  const related=globalVariants.filter(v=>v.ProductID===p.ProductID);
+  const anyInStock=related.some(v=>v.Stock==="In Stock");
+
+  const card=document.createElement("div");
+  card.className="card";
+  card.onclick=()=>openModal(p.ProductID);
+
+  card.innerHTML=`
+   <img src="${p.Image}" loading="lazy">
+   <div class="card-content">
+    <h3>${p.Name}</h3>
+    <p>${p.Category||""}</p>
+    ${related.length?`<p class="price">${related[0].Price} EGP</p>`:""}
+    ${related.length?`<span class="badge ${anyInStock?'in':'out'}">${anyInStock?'In Stock':'Out of Stock'}</span>`:""}
+   </div>
+  `;
+  container.appendChild(card);
+ });
+}
+
+loadData();
+
+</script>
 </body>
 </html>
