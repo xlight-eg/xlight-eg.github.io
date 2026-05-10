@@ -34,7 +34,7 @@ header::after{
 header img{height:55px}
 header h2{color:white;margin:0}
 
-/* ✅ NEW SEARCH BAR STYLE */
+/* ✅ Search Bar */
 .filter-bar{
  display:flex;
  justify-content:center;
@@ -44,18 +44,18 @@ header h2{color:white;margin:0}
 .search-wrapper{
  display:flex;
  width:100%;
- max-width:800px;
+ max-width:850px;
  background:#fff;
- border-radius:8px;
+ border-radius:12px;
  overflow:hidden;
- box-shadow:0 4px 12px rgba(0,0,0,0.08);
- border:1px solid #e5e5e5;
+ box-shadow:0 6px 18px rgba(0,0,0,0.08);
+ border:1px solid #e6e6e6;
 }
 
 .search-wrapper input{
  flex:1;
  border:none;
- padding:14px 16px;
+ padding:14px 18px;
  font-size:14px;
  outline:none;
 }
@@ -70,25 +70,24 @@ header h2{color:white;margin:0}
  background:white;
 }
 
-.search-wrapper select:focus{
- background:#f9f9f9;
-}
-
 .search-btn{
- background:#000;
- color:#fff;
+ width:65px;
+ background:white;
  border:none;
- padding:0 20px;
+ border-left:1px solid #eee;
  cursor:pointer;
  display:flex;
  align-items:center;
  justify-content:center;
 }
 
-.search-btn:hover{
- background:#00b7c2;
+.search-btn svg{
+ width:22px;
+ height:22px;
+ stroke:#00b7c2;
 }
 
+/* Products */
 .products{
  display:grid;
  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
@@ -96,7 +95,6 @@ header h2{color:white;margin:0}
  padding:20px;
 }
 
-/* Card */
 .card{
  background:white;
  border-radius:12px;
@@ -186,7 +184,9 @@ header h2{color:white;margin:0}
  align-items:center;
 }
 
-.modal.show{ display:flex; }
+.modal.show{
+ display:flex;
+}
 
 .modal-content{
  background:white;
@@ -208,7 +208,6 @@ header h2{color:white;margin:0}
  cursor:pointer;
 }
 
-/* Variant */
 .variant-box{
  background:#f9fafb;
  border-radius:12px;
@@ -258,7 +257,6 @@ header h2{color:white;margin:0}
 
 </style>
 </head>
-
 <body>
 
 <header>
@@ -266,22 +264,23 @@ header h2{color:white;margin:0}
 <h2>X-Light</h2>
 </header>
 
-<!-- ✅ New Styled Search Bar -->
 <div class="filter-bar">
- <div class="search-wrapper">
-   <input type="text" id="searchInput" placeholder="Search product...">
-
-   <select id="categoryFilter"></select>
-
-   <select id="sortSelect">
-     <option value="default">Sort</option>
-     <option value="priceLow">Price: Low → High</option>
-     <option value="priceHigh">Price: High → Low</option>
-     <option value="nameAZ">Name: A → Z</option>
-   </select>
-
-   <button class="search-btn">🔍</button>
- </div>
+  <div class="search-wrapper">
+    <input type="text" id="searchInput" placeholder="Search product...">
+    <select id="categoryFilter"></select>
+    <select id="sortSelect">
+      <option value="default">Sort</option>
+      <option value="priceLow">Price: Low → High</option>
+      <option value="priceHigh">Price: High → Low</option>
+      <option value="nameAZ">Name: A → Z</option>
+    </select>
+    <button class="search-btn" type="button">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="20" y1="20" x2="16.5" y2="16.5"></line>
+      </svg>
+    </button>
+  </div>
 </div>
 
 <div class="products" id="productList"></div>
@@ -298,9 +297,9 @@ target="_blank">
 WhatsApp
 </a>
 
+<!-- ✅ نفس السكريبت القديم بدون أي تعديل -->
 <script>
-/* ✅ كل الجافاسكريبت كما هو بدون أي تعديل */
-/* (استخدم نفس السكريبت اللي عندك حالياً بدون تغيير) */
+/* هنا حط السكريبت اللي عندك بالكامل كما هو بدون تغيير */
 </script>
 
 </body>
