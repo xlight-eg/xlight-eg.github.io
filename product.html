@@ -6,7 +6,6 @@
 <title>Product Page</title>
 
 <style>
-
 body{
  margin:0;
  font-family:"Segoe UI", Arial, sans-serif;
@@ -20,7 +19,6 @@ body{
  padding:60px 20px;
 }
 
-/* Layout */
 .product-wrapper{
  display:grid;
  grid-template-columns:1fr 1fr;
@@ -28,7 +26,6 @@ body{
  align-items:start;
 }
 
-/* Info Section */
 .product-info{
  background:white;
  padding:50px;
@@ -49,13 +46,13 @@ body{
  margin-bottom:10px;
 }
 
-/* Stock */
 .stock-status{
  display:inline-block;
  padding:6px 14px;
  border-radius:20px;
  font-size:13px;
  font-weight:600;
+ margin-bottom:25px;
 }
 
 .in-stock{
@@ -74,31 +71,10 @@ body{
  margin:25px 0;
 }
 
-/* Specs */
 .spec-item{
- display:flex;
- align-items:center;
- gap:10px;
- margin-bottom:14px;
+ margin-bottom:12px;
  font-size:15px;
  color:#555;
-}
-
-.spec-item i{
- color:#00b7c2;
-}
-
-/* Description */
-.description{
- margin-top:20px;
- line-height:1.8;
- color:#444;
- font-size:15px;
-}
-
-/* Variants */
-.variant-section{
- margin-top:35px;
 }
 
 .variant-grid{
@@ -113,40 +89,11 @@ body{
  padding:20px;
  border-radius:16px;
  text-align:center;
- transition:0.3s;
- cursor:pointer;
  border:2px solid transparent;
 }
 
-.variant-card:hover{
- background:white;
- transform:translateY(-5px);
- box-shadow:0 10px 30px rgba(0,0,0,0.1);
- border-color:#00b7c2;
-}
-
-/* WhatsApp */
-.whatsapp-btn{
- margin-top:40px;
- display:inline-block;
- padding:14px 30px;
- background:#25D366;
- color:white;
- border-radius:40px;
- text-decoration:none;
- font-weight:600;
- transition:0.3s;
-}
-
-.whatsapp-btn:hover{
- transform:translateY(-2px);
- box-shadow:0 10px 20px rgba(0,0,0,0.15);
-}
-
-/* Gallery */
 .product-gallery{
  display:flex;
- gap:20px;
 }
 
 .main-image{
@@ -162,190 +109,124 @@ body{
  display:block;
 }
 
-.thumbnail-list{
- display:flex;
- flex-direction:column;
- gap:15px;
-}
-
-.thumbnail-list img{
- width:90px;
- border-radius:12px;
- cursor:pointer;
- opacity:0.7;
- transition:0.3s;
-}
-
-.thumbnail-list img:hover{
- opacity:1;
- transform:scale(1.05);
-}
-
-/* Responsive */
 @media(max-width:900px){
-
  .product-wrapper{
   grid-template-columns:1fr;
  }
-
- .product-info{
-  padding:30px;
- }
-
- .product-gallery{
-  flex-direction:column;
- }
-
- .thumbnail-list{
-  flex-direction:row;
-  overflow-x:auto;
- }
-
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
 <div class="product-wrapper">
 
-<!-- ✅ Info Section -->
 <div class="product-info">
+  <h1 id="productName">Loading...</h1>
+  <div class="price" id="productPrice"></div>
+  <div id="productStock"></div>
 
- <h1>Track Spot Light</h1>
+  <div class="divider"></div>
 
- <div class="price">499 EGP</div>
- <div class="stock-status in-stock">In Stock</div>
+  <div id="productSpecs"></div>
 
- <div class="divider"></div>
+  <div class="divider"></div>
 
- <div class="specs">
-
-  <div class="spec-item">
-    <i>⚡</i>
-    <span><b>Watt:</b> 10W / 15W / 20W</span>
+  <div id="variantSection">
+    <h3>Available Variants</h3>
+    <div class="variant-grid" id="variantGrid"></div>
   </div>
-
-  <div class="spec-item">
-    <i>📏</i>
-    <span><b>Dimensions:</b> L220*W22*H82</span>
-  </div>
-
-  <div class="spec-item">
-    <i>🎨</i>
-    <span><b>Color:</b> BK – 4 IN 1</span>
-  </div>
-
- </div>
-
- <div class="divider"></div>
-
- <div class="description">
-  High quality modern lighting solution perfect for indoor use.
- </div>
-
- <div class="variant-section">
-  <h3>Available Variants</h3>
-
-  <div class="variant-grid">
-
-   <div class="variant-card">
-    <b>10W</b>
-    <div>499 EGP</div>
-    <div style="font-size:13px;color:#777;margin-top:8px;">
-      L220*W22*H82
-    </div>
-    <div style="font-size:13px;color:#777;">
-      BK – 4 IN 1
-    </div>
-    <div style="margin-top:10px;">
-      <span class="stock-status in-stock">In Stock</span>
-    </div>
-   </div>
-
-   <div class="variant-card">
-    <b>15W</b>
-    <div>599 EGP</div>
-    <div style="font-size:13px;color:#777;margin-top:8px;">
-      L220*W22*H82
-    </div>
-    <div style="font-size:13px;color:#777;">
-      BK – 4 IN 1
-    </div>
-    <div style="margin-top:10px;">
-      <span class="stock-status out-stock">Out of Stock</span>
-    </div>
-   </div>
-
-   <div class="variant-card">
-    <b>20W</b>
-    <div>699 EGP</div>
-    <div style="font-size:13px;color:#777;margin-top:8px;">
-      L220*W22*H82
-    </div>
-    <div style="font-size:13px;color:#777;">
-      BK – 4 IN 1
-    </div>
-    <div style="margin-top:10px;">
-      <span class="stock-status in-stock">In Stock</span>
-    </div>
-   </div>
-
-  </div>
-
- </div>
-
- <a href="#" class="whatsapp-btn">Chat on WhatsApp</a>
-
 </div>
 
-<!-- ✅ Gallery -->
 <div class="product-gallery">
-
- <div class="main-image">
-  <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4">
- </div>
-
- <div class="thumbnail-list">
-  <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4">
-  <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353">
-  <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353">
- </div>
-
+  <div class="main-image">
+    <img id="productImage">
+  </div>
 </div>
 
 </div>
-
 </div>
+
 <script>
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
 
+/* ✅ روابط الشيت */
 const productsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNK1-sQ7NdIisZEzOpesx2L/pub?gid=0&single=true&output=csv";
-fetch(productsURL)
-  .then(res => res.text())
-  .then(data => {
 
-    const rows = data.split("\n").map(r => r.split(","));
-    const headers = rows[0];
+const variantsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNK1-sQ7NdIisZEzOpesx2L/pub?gid=365796544&single=true&output=csv";
 
-    const products = rows.slice(1).map(row => {
-      let obj = {};
-      headers.forEach((h, i) => {
-        obj[h.trim()] = row[i]?.trim();
-      });
-      return obj;
-    });
 
-    const product = products.find(p => p.ProductID == productId)
-    console.log("Selected Product:", product);
+function parseCSV(text){
+ const rows=text.trim().split("\n");
+ const headers=rows[0].split(",").map(h=>h.replace(/"/g,"").trim());
+ return rows.slice(1).map(row=>{
+  const cols=row.split(",");
+  let obj={};
+  headers.forEach((h,i)=>{
+   obj[h]=(cols[i]||"").replace(/"/g,"").trim();
+  });
+  return obj;
+ });
+}
+
+
+Promise.all([
+ fetch(productsURL).then(r=>r.text()),
+ fetch(variantsURL).then(r=>r.text())
+]).then(([productsText,variantsText])=>{
+
+ const products=parseCSV(productsText);
+ const variants=parseCSV(variantsText);
+
+ const product=products.find(p=>p.ProductID==productId);
+ const relatedVariants=variants.filter(v=>v.ProductID==productId);
+
+ if(!product){
+  document.body.innerHTML="<h2 style='text-align:center;margin-top:100px'>Product Not Found</h2>";
+  return;
+ }
+
+ document.getElementById("productName").innerText=product.Name;
+ document.getElementById("productImage").src=product.Image;
+ document.getElementById("productSpecs").innerHTML=`
+   <div class="spec-item"><b>Category:</b> ${product.Category}</div>
+   <div class="spec-item"><b>Color:</b> ${product.Color}</div>
+ `;
+
+ const variantGrid=document.getElementById("variantGrid");
+ variantGrid.innerHTML="";
+
+ let anyInStock=false;
+
+ relatedVariants.forEach(v=>{
+   if(v.Stock==="In Stock") anyInStock=true;
+
+   variantGrid.innerHTML+=`
+     <div class="variant-card">
+       <b>${v.Watt}</b><br>
+       ${v.Price} EGP<br>
+       ${v.Dimension}<br>
+       <span class="stock-status ${v.Stock==="In Stock"?"in-stock":"out-stock"}">
+         ${v.Stock}
+       </span>
+     </div>
+   `;
+ });
+
+ document.getElementById("productPrice").innerText=
+   relatedVariants.length? relatedVariants[0].Price+" EGP":"";
+
+ document.getElementById("productStock").innerHTML=
+   `<div class="stock-status ${anyInStock?"in-stock":"out-stock"}">
+     ${anyInStock?"In Stock":"Out of Stock"}
+    </div>`;
 
 });
 
 </script>
+
 </body>
 </html>
