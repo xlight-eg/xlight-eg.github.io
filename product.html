@@ -1,1 +1,56 @@
-<h1>Product Page Test</h1>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product</title>
+
+<style>
+
+body{
+ margin:0;
+ font-family:Arial;
+ background:#f6f6f6;
+}
+
+.container{
+ max-width:1200px;
+ margin:auto;
+ padding:40px 20px;
+}
+
+.product-wrapper{
+ display:grid;
+ grid-template-columns: 1fr 1fr;
+ gap:40px;
+}
+
+@media(max-width:900px){
+ .product-wrapper{
+  grid-template-columns:1fr;
+ }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+ <div class="product-wrapper">
+
+  <div style="background:white;height:400px;border-radius:12px;">
+   Image Section
+  </div>
+
+  <div style="background:white;height:400px;border-radius:12px;">
+   Info Section
+  </div>
+
+ </div>
+
+</div>
+
+</body>
+</html>
