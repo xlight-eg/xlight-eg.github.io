@@ -28,7 +28,7 @@ body{
  align-items:start;
 }
 
-/* Info Section (Left) */
+/* Info Section */
 .product-info{
  background:white;
  padding:50px;
@@ -56,7 +56,6 @@ body{
  border-radius:20px;
  font-size:13px;
  font-weight:600;
- margin-bottom:25px;
 }
 
 .in-stock{
@@ -75,12 +74,21 @@ body{
  margin:25px 0;
 }
 
-.specs div{
- margin-bottom:12px;
+/* Specs */
+.spec-item{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ margin-bottom:14px;
  font-size:15px;
  color:#555;
 }
 
+.spec-item i{
+ color:#00b7c2;
+}
+
+/* Description */
 .description{
  margin-top:20px;
  line-height:1.8;
@@ -135,7 +143,7 @@ body{
  box-shadow:0 10px 20px rgba(0,0,0,0.15);
 }
 
-/* Gallery (Right) */
+/* Gallery */
 .product-gallery{
  display:flex;
  gap:20px;
@@ -210,16 +218,27 @@ body{
  <h1>Track Spot Light</h1>
 
  <div class="price">499 EGP</div>
-
- <!-- ✅ الحالة العامة للمنتج -->
  <div class="stock-status in-stock">In Stock</div>
 
  <div class="divider"></div>
 
  <div class="specs">
-  <div><b>Watt:</b> 10W / 15W / 20W</div>
-  <div><b>Dimensions:</b> L220*W22*H82</div>
-  <div><b>Color:</b> BK – 4 IN 1</div>
+
+  <div class="spec-item">
+    <i>⚡</i>
+    <span><b>Watt:</b> 10W / 15W / 20W</span>
+  </div>
+
+  <div class="spec-item">
+    <i>📏</i>
+    <span><b>Dimensions:</b> L220*W22*H82</span>
+  </div>
+
+  <div class="spec-item">
+    <i>🎨</i>
+    <span><b>Color:</b> BK – 4 IN 1</span>
+  </div>
+
  </div>
 
  <div class="divider"></div>
@@ -233,25 +252,46 @@ body{
 
   <div class="variant-grid">
 
-   <!-- ✅ Variant 1 -->
    <div class="variant-card">
-    <b>10W</b><br>
-    499 EGP<br>
-    <span class="stock-status in-stock">In Stock</span>
+    <b>10W</b>
+    <div>499 EGP</div>
+    <div style="font-size:13px;color:#777;margin-top:8px;">
+      L220*W22*H82
+    </div>
+    <div style="font-size:13px;color:#777;">
+      BK – 4 IN 1
+    </div>
+    <div style="margin-top:10px;">
+      <span class="stock-status in-stock">In Stock</span>
+    </div>
    </div>
 
-   <!-- ✅ Variant 2 -->
    <div class="variant-card">
-    <b>15W</b><br>
-    599 EGP<br>
-    <span class="stock-status out-stock">Out of Stock</span>
+    <b>15W</b>
+    <div>599 EGP</div>
+    <div style="font-size:13px;color:#777;margin-top:8px;">
+      L220*W22*H82
+    </div>
+    <div style="font-size:13px;color:#777;">
+      BK – 4 IN 1
+    </div>
+    <div style="margin-top:10px;">
+      <span class="stock-status out-stock">Out of Stock</span>
+    </div>
    </div>
 
-   <!-- ✅ Variant 3 -->
    <div class="variant-card">
-    <b>20W</b><br>
-    699 EGP<br>
-    <span class="stock-status in-stock">In Stock</span>
+    <b>20W</b>
+    <div>699 EGP</div>
+    <div style="font-size:13px;color:#777;margin-top:8px;">
+      L220*W22*H82
+    </div>
+    <div style="font-size:13px;color:#777;">
+      BK – 4 IN 1
+    </div>
+    <div style="margin-top:10px;">
+      <span class="stock-status in-stock">In Stock</span>
+    </div>
    </div>
 
   </div>
