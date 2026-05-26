@@ -320,6 +320,33 @@ body{
 </div>
 
 </div>
+<script>
 
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("id");
+
+const productsURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS....../pub?output=csv";
+fetch(productsURL)
+  .then(res => res.text())
+  .then(data => {
+
+    const rows = data.split("\n").map(r => r.split(","));
+    const headers = rows[0];
+
+    const products = rows.slice(1).map(row => {
+      let obj = {};
+      headers.forEach((h, i) => {
+        obj[h.trim()] = row[i]?.trim();
+      });
+      return obj;
+    });
+
+    const product = products.find(p => p.ProductID === productId);
+
+    console.log("Selected Product:", product);
+
+});
+
+</script>
 </body>
 </html>
