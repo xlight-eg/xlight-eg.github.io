@@ -298,7 +298,42 @@ display:block;
  background:#fee2e2;
  color:#991b1b;
 }
+.stock-out{
+ background:#fee2e2;
+ color:#991b1b;
+}
 
+/* Pagination */
+.pagination{
+ text-align:center;
+ padding:30px 0;
+}
+
+.pagination button{
+ background:white;
+ border:1px solid #ddd;
+ padding:8px 14px;
+ margin:0 5px;
+ border-radius:8px;
+ cursor:pointer;
+ font-size:14px;
+ transition:0.2s;
+}
+
+.pagination button:hover{
+ background:#00b7c2;
+ color:white;
+ border-color:#00b7c2;
+}
+
+.pagination button.active{
+ background:#00b7c2;
+ color:white;
+ border-color:#00b7c2;
+ font-weight:bold;
+}
+
+</style>
 </style>
 </head>
 <body>
@@ -328,7 +363,7 @@ display:block;
 </div>
 
 <div class="products" id="productList"></div>
-<div id="pagination" style="text-align:center; padding:20px;"></div>
+<div id="pagination" class="pagination"></div>
 
  <!-- ✅ رجعنا الأزرار -->
 <a class="location"
@@ -544,12 +579,12 @@ function renderProducts(products){
   }
 
   for(let i=1; i<=totalPages; i++){
-   pagination.innerHTML += 
-   `<button onclick="changePage(${i})"
-    style="margin:0 5px; ${i===currentPage?'font-weight:bold;':''}">
-    ${i}
-   </button>`;
-  }
+ pagination.innerHTML += 
+ `<button onclick="changePage(${i})"
+ class="${i===currentPage?'active':''}">
+ ${i}
+ </button>`;
+}
 
   if(currentPage < totalPages){
    pagination.innerHTML += 
