@@ -325,7 +325,7 @@ body{
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
 
-const productsURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS....../pub?output=csv";
+const productsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNK1-sQ7NdIisZEzOpesx2L/pub?gid=0&single=true&output=csv";
 fetch(productsURL)
   .then(res => res.text())
   .then(data => {
@@ -341,8 +341,7 @@ fetch(productsURL)
       return obj;
     });
 
-    const product = products.find(p => p.ProductID === productId);
-
+    const product = products.find(p => p.ProductID == productId)
     console.log("Selected Product:", product);
 
 });
