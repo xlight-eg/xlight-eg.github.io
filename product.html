@@ -232,7 +232,7 @@ body{
   <div class="variant-grid" id="variantGrid"></div>
 </div>
 
- <a href="#" class="whatsapp-btn">Chat on WhatsApp</a>
+<a id="whatsappBtn" class="whatsapp-btn" target="_blank">Chat on WhatsApp</a>
 
 </div>
 
@@ -242,12 +242,7 @@ body{
  <div class="main-image">
 <img id="productImage"> </div>
 
- <div class="thumbnail-list">
-  <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4">
-  <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353">
-  <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353">
- </div>
-
+ 
 </div>
 
 </div>
@@ -289,10 +284,12 @@ document.getElementById("productName").innerText = product.Name;
 document.getElementById("productPrice").innerText = "Loading...";
 document.getElementById("productImage").src = product.Image;
 document.getElementById("productDescription").innerText = product.Description;
-
+document.getElementById("whatsappBtn").href =
+  `https://wa.me/201092278234?text=I'm interested in ${product.Name}`;
 document.getElementById("productSpecs").innerHTML = `
-  <div class="spec-item"><b>Category:</b> ${product.Category}</div>
-  <div class="spec-item"><b>Color:</b> ${product.Color}</div>
+  <div class="spec-item">⚡ <b>Category:</b> ${product.Category}</div>
+  <div class="spec-item">📏 <b>Dimensions:</b> ---</div>
+  <div class="spec-item">🎨 <b>Color:</b> ${product.Color}</div>
 `;
   fetch(variantsURL)
 .then(res => res.text())
