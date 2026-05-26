@@ -146,6 +146,7 @@ header h2{color:white;margin:0}
  box-shadow:0 5px 15px rgba(0,0,0,0.08);
  cursor:pointer;
  transition:0.3s;
+ position: relative;
 }
 
 .card:hover{
@@ -332,33 +333,27 @@ display:block;
  border-color:#00b7c2;
  font-weight:bold;
 }
-/* Top Product Label */
+/* Premium Floating Badge */
 .top-label{
- width:100%;
- padding:6px 10px;
- font-size:12px;
+ position:absolute;
+ top:14px;
+ left:14px;
+ padding:8px 14px;
+ font-size:13px;
  font-weight:600;
  letter-spacing:0.5px;
- text-align:center;
- background:#00b7c2;
+ border-radius:30px;
+ backdrop-filter: blur(8px);
+ background: rgba(0, 183, 194, 0.85);
  color:white;
+ box-shadow:0 8px 20px rgba(0,0,0,0.15);
+ transition: all 0.3s ease;
 }
 
-/* Variants */
-.top-label.discount{
- background:#dc2626;
-}
-
-.top-label.new{
- background:#16a34a;
-}
-
-.top-label.limited{
- background:#7c3aed;
-}
-
-.top-label.shipping{
- background:#f59e0b;
+/* Hover effect with card */
+.card:hover .top-label{
+ transform: translateY(-3px) scale(1.05);
+ box-shadow:0 12px 25px rgba(0,0,0,0.25);
 }
 </style>
 </head>
