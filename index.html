@@ -332,8 +332,34 @@ display:block;
  border-color:#00b7c2;
  font-weight:bold;
 }
+/* Top Product Label */
+.top-label{
+ width:100%;
+ padding:6px 10px;
+ font-size:12px;
+ font-weight:600;
+ letter-spacing:0.5px;
+ text-align:center;
+ background:#00b7c2;
+ color:white;
+}
 
-</style>
+/* Variants */
+.top-label.discount{
+ background:#dc2626;
+}
+
+.top-label.new{
+ background:#16a34a;
+}
+
+.top-label.limited{
+ background:#7c3aed;
+}
+
+.top-label.shipping{
+ background:#f59e0b;
+}
 </style>
 </head>
 <body>
@@ -555,8 +581,9 @@ function renderProducts(products){
   card.onclick=()=>openModal(p.ProductID);
 
   card.innerHTML=`
-   <img src="${p.Image}" loading="lazy">
-   <div class="card-content">
+ ${p.Badge ? `<div class="top-label ${p.BadgeClass || ''}">${p.Badge}</div>` : ""}
+ <img src="${p.Image}" loading="lazy">
+ <div class="card-content">
     <h3>${p.Name}</h3>
     <p>${p.Category||""}</p>
     ${related.length?`<p class="price">${related[0].Price} EGP</p>`:""}
