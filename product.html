@@ -90,26 +90,6 @@ body{
 
 /* Description */
 .description{
- margin-top:30px;
-}
-
-.section-title{
- font-size:18px;
- font-weight:600;
- margin-bottom:12px;
- color:#222;
- position:relative;
-}
-
-.section-title::after{
- content:"";
- display:block;
- width:40px;
- height:3px;
- background:#00b7c2;
- margin-top:6px;
- border-radius:2px;
-}
  margin-top:20px;
  line-height:1.8;
  color:#444;
@@ -245,10 +225,7 @@ body{
 
  <div class="divider"></div>
 
-<div class="product-description-section">
-  <h3 class="section-title">Product Description</h3>
-  <div class="description" id="productDescription"></div>
-</div>
+ <div class="description" id="productDescription"></div>
 
  <div class="variant-section" id="variantSection">
   <h3>Available Variants</h3>
@@ -306,14 +283,12 @@ const productsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4
 document.getElementById("productName").innerText = product.Name;
 document.getElementById("productPrice").innerText = "Loading...";
 document.getElementById("productImage").src = product.Image;
-document.getElementById("productDescription").innerText = product.وصف المنتج;
+document.getElementById("productDescription").innerText = product.Description;
 document.getElementById("whatsappBtn").href =
   `https://wa.me/201092278234?text=I'm interested in ${product.Name}`;
-
-
 document.getElementById("productSpecs").innerHTML = `
   <div class="spec-item">⚡ <b>Category:</b> ${product.Category}</div>
-  <div class="spec-item">📏 <b>Dimensions:</b> ${firstDimension}</div>
+  <div class="spec-item">📏 <b>Dimensions:</b> ---</div>
   <div class="spec-item">🎨 <b>Color:</b> ${product.Color}</div>
 `;
   fetch(variantsURL)
@@ -322,13 +297,7 @@ document.getElementById("productSpecs").innerHTML = `
 
   const variants = parseCSV(data);
   const relatedVariants = variants.filter(v => v.ProductID == productId);
-  if(relatedVariants.length){
-  document.getElementById("productSpecs").innerHTML = `
-    <div class="spec-item">⚡ <b>Category:</b> ${product.Category}</div>
-    <div class="spec-item">📏 <b>Dimensions:</b> ${relatedVariants[0].Dimension}</div>
-    <div class="spec-item">🎨 <b>Color:</b> ${product.Color}</div>
-  `;
-}
+
   const variantGrid = document.getElementById("variantGrid");
   variantGrid.innerHTML = "";
 
