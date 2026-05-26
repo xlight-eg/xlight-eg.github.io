@@ -181,8 +181,8 @@ Promise.all([
  const products=parseCSV(productsText);
  const variants=parseCSV(variantsText);
 
- const product=products.find(p=>p.ProductID==productId);
- const relatedVariants=variants.filter(v=>v.ProductID==productId);
+ const product = products.find(p => p.ProductID.trim() == productId.trim());
+ const relatedVariants = variants.filter(v => v.ProductID.trim() == productId.trim());
 
  if(!product){
   document.body.innerHTML="<h2 style='text-align:center;margin-top:100px'>Product Not Found</h2>";
