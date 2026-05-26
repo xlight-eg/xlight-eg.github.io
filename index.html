@@ -575,7 +575,9 @@ function renderProducts(products){
 
   const card=document.createElement("div");
   card.className="card";
-  card.onclick=()=>openModal(p.ProductID);
+  card.onclick=()=>{
+ window.location.href = `product.html?id=${p.ProductID}`;
+};
 
   card.innerHTML=`
  ${p.Badge ? `<div class="top-label ${p.BadgeClass || ''}">${p.Badge}</div>` : ""}
