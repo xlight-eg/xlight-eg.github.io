@@ -271,14 +271,16 @@ function parseCSV(text){
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
 
-const productsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=0&single=true&output=csv";fetch(productsURL)
+const productsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=0&single=true&output=csv";
+ fetch(productsURL)
   .then(res => res.text())
   .then(data => {
 
     const products = parseCSV(data);
 
     const product = products.find(p => p.ProductID == productId)
-    if(!product){
+    const variantsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsp818LHJ9i4fVzl2B63EHRr-wJwcANhC9ZSUGKQn3TqgAxOjQFe4NfLNKl-sQ7Ndi1sZEzOpesx2L/pub?gid=365796544&single=true&output=csv";
+   if(!product){
   document.body.innerHTML="<h2 style='text-align:center;margin-top:100px'>Product Not Found</h2>";
   return;
 }
@@ -292,6 +294,43 @@ document.getElementById("productSpecs").innerHTML = `
   <div class="spec-item"><b>Category:</b> ${product.Category}</div>
   <div class="spec-item"><b>Color:</b> ${product.Color}</div>
 `;
+  fetch(variantsURL)
+.then(res => res.text())
+.then(data => {
+
+  const variants = parseCSV(data);
+  const relatedVariants = variants.filter(v => v.ProductID == productId);
+
+  const variantGrid = document.getElementById("variantGrid");
+  variantGrid.innerHTML = "";
+
+  let anyInStock = false;
+
+  relatedVariants.forEach(v=>{
+    if(v.Stock === "In Stock") anyInStock = true;
+
+    variantGrid.innerHTML += `
+      <div class="variant-card">
+        <b>${v.Watt}</b><br>
+        ${v.Price} EGP<br>
+        ${v.Dimension}<br>
+        <span class="stock-status ${v.Stock === "In Stock" ? "in-stock" : "out-stock"}">
+          ${v.Stock}
+        </span>
+      </div>
+    `;
+  });
+
+  if(relatedVariants.length){
+    document.getElementById("productPrice").innerText = relatedVariants[0].Price + " EGP";
+  }
+
+  document.getElementById("productStock").innerHTML =
+    `<div class="stock-status ${anyInStock ? "in-stock" : "out-stock"}">
+      ${anyInStock ? "In Stock" : "Out of Stock"}
+     </div>`;
+
+});
    console.log("Selected Product:", product);
 
 });
