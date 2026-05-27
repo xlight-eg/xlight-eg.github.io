@@ -124,7 +124,11 @@ body{
  box-shadow:0 10px 30px rgba(0,0,0,0.1);
  border-color:#00b7c2;
 }
-
+.variant-price{
+ color:#00b7c2;
+ font-weight:700;
+ margin:6px 0;
+}
 /* WhatsApp */
 .whatsapp-btn{
  margin-top:40px;
@@ -308,7 +312,7 @@ document.getElementById("productSpecs").innerHTML = `
     variantGrid.innerHTML += `
       <div class="variant-card">
         <b>${v.Watt}</b><br>
-        ${v.Price} EGP<br>
+        <div class="variant-price">${v.Price} EGP</div>
         ${v.Dimension}<br>
         <span class="stock-status ${v.Stock === "In Stock" ? "in-stock" : "out-stock"}">
           ${v.Stock}
